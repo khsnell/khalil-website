@@ -19,3 +19,17 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+#profile {
+  rotate: 270deg;
+  /*width: 250px;*/
+  /*border-radius: 100%;*/
+  border: thin black solid;
+  /*position: absolute;
+  top: 1em;
+  left: 6em;*/
+}
+
+#header, #nav {
+  border-bottom: thin black solid;
+}
