@@ -1,7 +1,7 @@
 'use client'
 
 export function toggleMenu() {
-	let menu = document.getElementById("nav");
+	const menu = document.getElementById("nav");
 
 	if (menu?.className.indexOf("hidden") !== -1) {
 		menu.className = "block text-center";
