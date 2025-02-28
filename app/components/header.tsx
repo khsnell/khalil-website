@@ -1,12 +1,14 @@
 'use client'
 
+import Link from 'next/link';
+
 export function toggleMenu() {
 	const menu = document.getElementById("nav");
 
 	if (menu?.className.indexOf("hidden") !== -1) {
 		menu.className = "block text-center";
 	} else {
-		menu.className = "hidden md:block";
+		menu.className = "hidden md:block text-center";
 	}
 }
 
@@ -31,8 +33,12 @@ export default function Header() {
 		</div>
 		<div id="nav" className="hidden md:block md:text-center">
 			<ul>
-				<li className="md:inline-block p-2"><a href="/">Resume</a></li>
-				<li className="md:inline-block p-2"><a href="https://github.com/khsnell">GitHub</a></li>
+				<li className="md:inline-block p-2">
+					<Link href="/">Resume</Link>
+				</li>
+				<li className="md:inline-block p-2">
+					<Link href="https://github.com/khsnell">GitHub</Link>
+				</li>
 			</ul>
 		</div>
         </>
