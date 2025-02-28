@@ -5,10 +5,12 @@ import Link from 'next/link';
 export function toggleMenu() {
 	const menu = document.getElementById("nav");
 
-	if (menu?.className.indexOf("hidden") !== -1) {
-		menu.className = "block text-center";
-	} else {
-		menu.className = "hidden md:block text-center";
+	if (menu) {
+		if (menu?.className.indexOf("hidden") !== -1) {
+			menu.className = "block text-center";
+		} else {
+			menu.className = "hidden md:block text-center";
+		}
 	}
 }
 
