@@ -10,7 +10,7 @@ export default function GameBoard() {
     const [isSolved, setIsSolved] = useState(false);
     const [answer, setAnswer] = useState("");
     const [clue, setClue] = useState("");
-    const [guessedLetters, setGuessedLetters] = useState([]);
+    const [guessedLetters, setGuessedLetters] = useState([] as string[]);
     const [guessError, setGuessError] = useState("");
     const [solveError, setSovleError] = useState("");
     const [vowelError, setVowelError] = useState("");
@@ -26,7 +26,8 @@ export default function GameBoard() {
         if (!gameInitialized) return;
 
         if (checkIfPlayerCPU(currentPlayer)) {
-            if (currentSpin != "lost turn" && currentSpin != "bankrupt") {
+            //console.log("currentSpin: " + currentSpin);
+            if (currentSpin != "" && currentSpin != "lost turn" && currentSpin != "bankrupt") {
                 runCPUPlayer(); 
             } else {
                 triggerCPUPlayer(currentPlayer);
@@ -36,12 +37,29 @@ export default function GameBoard() {
                 triggerCPUPlayer(currentPlayer);
             }
         }
-    }, [currentSpin]);
+    }, [currentSpin, currentPlayer]);
+
+
+    let wheel: HTMLElement;
+    let playerName: HTMLInputElement;
+    let guessInput: HTMLInputElement;
+    let solveInput: HTMLInputElement;
+    let vowelInput: HTMLInputElement;
+
+    if (document != null) {
+        wheel = document.getElementById("wheel")!;
+        playerName = (document.getElementById("playerName") as HTMLInputElement);
+        guessInput = (document.getElementById("guess") as HTMLInputElement);
+        solveInput = (document.getElementById("solve") as HTMLInputElement);
+        vowelInput = (document.getElementById("vowel") as HTMLInputElement);
+    }
 
     function handleGameInitialization() {
         setGameInitialized(true);
 
-        playerArray[0].name = document.getElementById("playerName").value;
+        if (playerName) {
+            playerArray[0].name = playerName.value;
+        }
 
         if (answer == "") {
             const randomAnswer = Math.floor(Math.random() * answerList.length);
@@ -76,32 +94,42 @@ export default function GameBoard() {
     }
 
     function resetPlayerBoard() {
-        document.getElementById("guess").value = "";
-        document.getElementById("solve").value = "";
-        document.getElementById("vowel").value = "";
+        if (guessInput) guessInput.value = "";
+        if (solveInput) solveInput.value = "";
+        if (vowelInput) vowelInput.value = "";
         setGuessError("");
         setSovleError("");
         setVowelError("");
     }
 
-    function checkIfPlayerCPU(player) {
+    function checkIfPlayerCPU(player: number) {
         return playerArray[player].player == "cpu";
     }
 
-    function checkIsInAnswer(letter) {
+    function checkIsInGuessedLetters(letter: string) {
+        let result = false;
+
+        for (let i = 0; i < guessedLetters.length; i++) {
+            if (guessedLetters[i] == letter) result = true;
+        }
+
+        return result;
+    }
+
+    function checkIsInAnswer(letter: string) {
         return answer.includes(letter);
     }
 
-    function checkTimesInAnswer(letter) {
+    function checkTimesInAnswer(letter: string) {
         return answer.split(letter).length - 1;
     }
 
-    function checkSolvePuzzle(puzzle) {
+    function checkSolvePuzzle(puzzle: string) {
         return puzzle == answer;
     }
 
     function checkAnswerComplete() {
-        const glInAnswer = [];
+        const glInAnswer: string[] = [];
 
         for (let i = 0; i < guessedLetters.length; i++) {
             if (checkIsInAnswer(guessedLetters[i])) glInAnswer.push(guessedLetters[i]);
@@ -126,7 +154,7 @@ export default function GameBoard() {
     }
 
     function solvePuzzle() {
-        const puzzle = document.getElementById("solve").value;
+        const puzzle = solveInput.value;
         const result = checkSolvePuzzle(puzzle.toUpperCase());
         
         if (!result) {
@@ -138,14 +166,14 @@ export default function GameBoard() {
         setIsSolved(result);
     }
 
-    function handleBuyVowel(val) {
+    function handleBuyVowel(val: string) {
         if (!val) return;
 
-        const mValue = val.toUpperCase();
+        const mValue: string = val.toUpperCase();
         const vowels = "AEIOU";
         let vowelScoreCounted = false;
 
-        setTimeout(() => {document.getElementById("vowel").value = "";}, 1000);
+        setTimeout(() => { if (vowelInput) vowelInput.value = ""; }, 1000);
 
         for (let i = 0; i < vowels.length; i++) {
             if (mValue == vowels[i]) {
@@ -157,7 +185,7 @@ export default function GameBoard() {
             setVowelError("You must enter a vowel!");
         } else if (playerArray[currentPlayer].score < 250) {
             setVowelError("You don't have enough money to buy a vowel!");
-        } else if (guessedLetters.includes(mValue)) {
+        } else if (checkIsInGuessedLetters(mValue)) {
             setVowelError("You have already guessed this letter!");
             incrementCurrentPlayer();
             handlePlayerTurn("", getNextPlayer());
@@ -178,13 +206,13 @@ export default function GameBoard() {
         setCurrentSpin("");
     }
 
-    function handleGuess(val) {
+    function handleGuess(val: string) {
         if(!val) return;
         
         const mValue = val.toUpperCase();
         const vowels = "AEIOU";
         
-        setTimeout(() => {document.getElementById("guess").value = "";}, 2000);
+        setTimeout(() => { if (guessInput) guessInput.value = ""; }, 2000);
 
         if (currentSpin == "" || currentSpin == "bankrupt" || currentSpin == "lost turn") {
             setGuessError("You must spin first!");
@@ -219,7 +247,7 @@ export default function GameBoard() {
             setGuessError("");
             setGuessedLetters([...guessedLetters, mValue]);
             
-            playerArray[currentPlayer].score += checkTimesInAnswer(mValue) * currentSpin;
+            playerArray[currentPlayer].score += checkTimesInAnswer(mValue) * parseInt(currentSpin);
             
             handlePlayerTurn("", currentPlayer);
             
@@ -231,13 +259,14 @@ export default function GameBoard() {
     } 
 
     function buildGameBoard() {
-        let gbArray = [];
+        const gbArray = [];
+        let output = <></>;
         const wordArray = answer.split(" ");
         let widthLeft = document.body.clientWidth;
         let j = 0;
 
         if (!gameInitialized) {
-            gbArray = (
+            output = (
                 <>
                     <div className="text-center">
                         Initializing Game:<br /><br />
@@ -252,6 +281,8 @@ export default function GameBoard() {
                     </div>
                 </>
             );
+
+            return output;
         } else {
             for (let i = 0; i < answer.length; i++) {
                 let cName = "m-2 w-12 text-center inline-block text-4xl ";
@@ -272,9 +303,9 @@ export default function GameBoard() {
                     widthLeft = document.body.clientWidth;
                 }
             }
-        }
 
-        return gbArray;
+            return gbArray;
+        }
     }
 
     function getPlayerBoard() {
@@ -346,9 +377,8 @@ export default function GameBoard() {
     function spinWheel() {
         if (!gameInitialized) return;
 
-        const wheel = document.getElementById("wheel");
-        const spin = 15 * Math.floor(Math.random() * 24);
-        let spinValue;
+        let spin = 15 * Math.floor(Math.random() * 24);
+        let spinValue: string = "";
 
         //spin = 165;
 
@@ -357,29 +387,32 @@ export default function GameBoard() {
         }, 1000);
 
         for (let i = 0; i < wheelSections.length; i++) {
-            if (wheelSections[i].deg === spin) spinValue = wheelSections[i].value;
+            if (wheelSections[i].deg === spin) {
+                spinValue = wheelSections[i].value.toString();
+            }
         }
 
         setCurrentSpin(spinValue);
         
-        wheel.className = "wheel-spin";
-        wheel.style = `transform: rotate(${spin}deg)`;
+        if (wheel) {
+            wheel.className = "wheel-spin";
+            wheel.setAttribute("style", `transform: rotate(${spin}deg)`);
+        }
 
         //console.log(playerArray[currentPlayer]);
         //console.log("spinValue: " + spinValue);
 
         if (spinValue == "bankrupt") {
             playerArray[currentPlayer].score = 0;
-            incrementCurrentPlayer();
 
             setTimeout(() => {
+                incrementCurrentPlayer();
                 handlePlayerTurn("", getNextPlayer());
                 return;
             }, 2000);
         } else if (spinValue == "lost turn") {
-            incrementCurrentPlayer();
-
             setTimeout(() => {
+                incrementCurrentPlayer();
                 handlePlayerTurn("", getNextPlayer());
                 return;
             }, 2000);
@@ -393,7 +426,7 @@ export default function GameBoard() {
         else setCurrentPlayer(0);
     }
 
-    function triggerCPUPlayer(player) {
+    function triggerCPUPlayer(player: number) {
         if (!checkIfPlayerCPU(player)) return;
 
         spinWheel();
@@ -413,7 +446,7 @@ export default function GameBoard() {
         }
 
         setTimeout(() => {
-            document.getElementById("guess").value = cpuGuess;
+            if (guessInput) guessInput.value = cpuGuess;
         }, 2000);
 
         setTimeout(() => {
@@ -443,7 +476,7 @@ export default function GameBoard() {
         );
     }
 
-    function handlePlayerTurn(spinValue, player) {
+    function handlePlayerTurn(spinValue: string, player: number) {
         const color = playerArray[player].color;
         const wContainer = document.getElementById("wheelContainer");
         const pBoard = document.getElementById("playerBoard");
