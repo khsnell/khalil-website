@@ -33,3 +33,7 @@ body {
 #header, #nav {
   border-bottom: thin black solid;
 }
+
+.wheel-spin {
+  transition: all 2s linear;
+}
