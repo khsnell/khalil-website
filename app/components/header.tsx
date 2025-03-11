@@ -42,7 +42,7 @@ export default function Header() {
 					<Link href="https://github.com/khsnell">GitHub</Link>
 				</li>
 				<li className="hidden md:inline-block p-2">
-					<Link href="/wheel-of-fortune/">Wheel</Link>
+					<Link href="/wheel-of-fortune/">Wheel of Fortune</Link>
 				</li>
 			</ul>
 		</div>

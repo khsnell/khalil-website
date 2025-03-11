@@ -1,7 +1,7 @@
 'use client';
 
 import Image from "next/image";
-import WOFWheel from "@/public/WOFWheel.svg";
+//import WOFWheel from "@/public/WOFWheel.svg";
 import { useState, useEffect } from 'react';
 import { wheelSections } from "@/app/wheel-of-fortune/data/wheel";
 import { answerList } from "@/app/wheel-of-fortune/data/answers";
@@ -356,8 +356,8 @@ export default function GameBoard() {
         wheel.className = "wheel-spin";
         wheel.style = `transform: rotate(${spin}deg)`;
 
-        console.log(playerArray[currentPlayer]);
-        console.log("spinValue: " + spinValue);
+        //console.log(playerArray[currentPlayer]);
+        //console.log("spinValue: " + spinValue);
 
         if (spinValue == "bankrupt") {
             playerArray[currentPlayer].score = 0;
@@ -366,7 +366,7 @@ export default function GameBoard() {
             setTimeout(() => {
                 handlePlayerTurn("", getNextPlayer());
                 return;
-            });
+            }, 2000);
         } else if (spinValue == "lost turn") {
             incrementCurrentPlayer();
 
@@ -475,14 +475,13 @@ export default function GameBoard() {
                 onClick={spinWheel}
                 className="border border-black p-2 ml-3 rounded-lg"
                 >SPIN!!!</button>
-            <Image
+            <img
                 id="wheel"
-                src={WOFWheel}
+                src="./WOFWheel.svg"
                 width={300}
                 height={300}
                 alt="wheel"
-            >
-            </Image>
+            />
         </div>
     </>
   );
