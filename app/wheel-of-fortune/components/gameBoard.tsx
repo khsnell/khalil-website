@@ -1,6 +1,6 @@
 'use client';
 
-import Image from "next/image";
+//import Image from "next/image";
 //import WOFWheel from "@/public/WOFWheel.svg";
 import { useState, useEffect } from 'react';
 import { wheelSections } from "@/app/wheel-of-fortune/data/wheel";
@@ -44,7 +44,7 @@ export default function GameBoard() {
         playerArray[0].name = document.getElementById("playerName").value;
 
         if (answer == "") {
-            let randomAnswer = Math.floor(Math.random() * answerList.length);
+            const randomAnswer = Math.floor(Math.random() * answerList.length);
             setAnswer(answerList[randomAnswer].value);
             setClue(answerList[randomAnswer].type);
         }
@@ -57,7 +57,7 @@ export default function GameBoard() {
         setIsSolved(false);
         setGuessedLetters([]);
 
-        let randomAnswer = Math.floor(Math.random() * answerList.length);
+        const randomAnswer = Math.floor(Math.random() * answerList.length);
         setAnswer(answerList[randomAnswer].value);
         setClue(answerList[randomAnswer].type);
 
@@ -92,13 +92,13 @@ export default function GameBoard() {
     }
 
     function checkAnswerComplete() {
-        let glInAnswer = [];
+        const glInAnswer = [];
 
         for (let i = 0; i < guessedLetters.length; i++) {
             if (checkIsInAnswer(guessedLetters[i])) glInAnswer.push(guessedLetters[i]);
         }
 
-        let complete = [];
+        const complete = [];
 
         for (let j = 0; j < answer.length; j++) {
             if (answer[j].match(/[^A-Z]/)) continue;
@@ -117,8 +117,8 @@ export default function GameBoard() {
     }
 
     function solvePuzzle() {
-        let puzzle = document.getElementById("solve").value;
-        let result = checkSolvePuzzle(puzzle.toUpperCase());
+        const puzzle = document.getElementById("solve").value;
+        const result = checkSolvePuzzle(puzzle.toUpperCase());
         
         if (!result) {
             setSovleError("Incorrect answer!");
@@ -132,8 +132,8 @@ export default function GameBoard() {
     function handleBuyVowel(val) {
         if (!val) return;
 
-        let mValue = val.toUpperCase();
-        let vowels = "AEIOU";
+        const mValue = val.toUpperCase();
+        const vowels = "AEIOU";
         let vowelScoreCounted = false;
 
         setTimeout(() => {document.getElementById("vowel").value = "";}, 1000);
@@ -172,8 +172,8 @@ export default function GameBoard() {
     function handleGuess(val) {
         if(!val) return;
         
-        let mValue = val.toUpperCase();
-        let vowels = "AEIOU";
+        const mValue = val.toUpperCase();
+        const vowels = "AEIOU";
         
         setTimeout(() => {document.getElementById("guess").value = "";}, 2000);
 
@@ -223,7 +223,7 @@ export default function GameBoard() {
 
     function buildGameBoard() {
         let gbArray = [];
-        let wordArray = answer.split(" ");
+        const wordArray = answer.split(" ");
         let widthLeft = document.body.clientWidth;
         let j = 0;
 
@@ -246,7 +246,7 @@ export default function GameBoard() {
         } else {
             for (let i = 0; i < answer.length; i++) {
                 let cName = "m-2 w-12 text-center inline-block text-4xl ";
-                let letter = answer[i];
+                const letter = answer[i];
 
                 if (!isSolved && (!guessedLetters.includes(letter) && letter.match(/[A-Z ]/))) cName += "text-white ";
                 if (letter != " ") cName += "bg-white border-black border-4";
@@ -298,7 +298,7 @@ export default function GameBoard() {
                     <span id="guessError" className="text-red-500 pl-5">{guessError}</span>
                 </div>
                 <div className="mt-2">
-                    <label>I'd like to buy a vowel: </label>
+                    <label>I&apos;d like to buy a vowel: </label>
                     <input
                         id="vowel" 
                         type="text" 
@@ -309,7 +309,7 @@ export default function GameBoard() {
                     <span id="vowelError" className="text-red-500 pl-5">{vowelError}</span>
                 </div>
                 <div>
-                    <label>I'd like to solve the puzzle: </label>
+                    <label>I&apos;d like to solve the puzzle: </label>
                     <input 
                         id="solve"
                         type="text"
@@ -325,7 +325,7 @@ export default function GameBoard() {
             );
         }
 
-        let tmpClass = "p-5 border border-black rounded-xl ";
+        const tmpClass = "p-5 border border-black rounded-xl ";
 
         return (
             <div id="playerBoard" className={tmpClass}>
@@ -337,8 +337,8 @@ export default function GameBoard() {
     function spinWheel() {
         if (!gameInitialized) return;
 
-        let wheel = document.getElementById("wheel");
-        let spin = 15 * Math.floor(Math.random() * 24);
+        const wheel = document.getElementById("wheel");
+        const spin = 15 * Math.floor(Math.random() * 24);
         let spinValue;
 
         //spin = 165;
@@ -394,7 +394,7 @@ export default function GameBoard() {
         //console.log("currentSpin: " + currentSpin);
 
         let cpuGuess = "";
-        let vocab = "RSTLNBCDFGHJKMPQUVWXYZ";
+        const vocab = "RSTLNBCDFGHJKMPQUVWXYZ";
 
         for (let i = 0; i < vocab.length; i++) {
             if (!guessedLetters.includes(vocab[i])) {
@@ -435,9 +435,9 @@ export default function GameBoard() {
     }
 
     function handlePlayerTurn(spinValue, player) {
-        let color = playerArray[player].color;
-        let wContainer = document.getElementById("wheelContainer");
-        let pBoard = document.getElementById("playerBoard");
+        const color = playerArray[player].color;
+        const wContainer = document.getElementById("wheelContainer");
+        const pBoard = document.getElementById("playerBoard");
 
         //console.log("player: " + player);
 
