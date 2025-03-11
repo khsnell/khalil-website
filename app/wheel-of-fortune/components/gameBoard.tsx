@@ -377,7 +377,7 @@ export default function GameBoard() {
     function spinWheel() {
         if (!gameInitialized) return;
 
-        let spin = 15 * Math.floor(Math.random() * 24);
+        const spin = 15 * Math.floor(Math.random() * 24);
         let spinValue: string = "";
 
         //spin = 165;
