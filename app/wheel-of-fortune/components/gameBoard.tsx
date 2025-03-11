@@ -56,6 +56,15 @@ export default function GameBoard() {
         setGameInitialized(false);
         setIsSolved(false);
         setGuessedLetters([]);
+        setPlayerArray([
+            {name: "Khalil", score: 0, color: "red", player: "player"}, 
+            {name: "Annie", score: 0, color: "blue", player: "cpu"}, 
+            {name: "Frank", score: 0, color: "yellow", player: "cpu"}
+        ]);
+        setGuessError("");
+        setSovleError("");
+        setVowelError("");
+        
 
         const randomAnswer = Math.floor(Math.random() * answerList.length);
         setAnswer(answerList[randomAnswer].value);
