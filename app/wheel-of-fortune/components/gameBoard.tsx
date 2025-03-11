@@ -22,6 +22,12 @@ export default function GameBoard() {
     const [currentPlayer, setCurrentPlayer] = useState(0);
     const [gameInitialized, setGameInitialized] = useState(false);
 
+    let wheel: HTMLElement | null;
+    let playerName: HTMLInputElement;
+    let guessInput: HTMLInputElement;
+    let solveInput: HTMLInputElement;
+    let vowelInput: HTMLInputElement;
+
     useEffect(() => { 
         if (!gameInitialized) return;
 
@@ -39,20 +45,13 @@ export default function GameBoard() {
         }
     }, [currentSpin, currentPlayer]);
 
-
-    let wheel: HTMLElement;
-    let playerName: HTMLInputElement;
-    let guessInput: HTMLInputElement;
-    let solveInput: HTMLInputElement;
-    let vowelInput: HTMLInputElement;
-
-    if (document != null) {
-        wheel = document.getElementById("wheel")!;
+    if (typeof document !== "undefined") {
+        wheel = document.getElementById("wheel");
         playerName = (document.getElementById("playerName") as HTMLInputElement);
         guessInput = (document.getElementById("guess") as HTMLInputElement);
         solveInput = (document.getElementById("solve") as HTMLInputElement);
         vowelInput = (document.getElementById("vowel") as HTMLInputElement);
-    }
+    } else return;
 
     function handleGameInitialization() {
         setGameInitialized(true);
@@ -259,6 +258,8 @@ export default function GameBoard() {
     } 
 
     function buildGameBoard() {
+        if (!document) return;
+
         const gbArray = [];
         let output = <></>;
         const wordArray = answer.split(" ");
@@ -477,6 +478,8 @@ export default function GameBoard() {
     }
 
     function handlePlayerTurn(spinValue: string, player: number) {
+        if (!document) return;
+        
         const color = playerArray[player].color;
         const wContainer = document.getElementById("wheelContainer");
         const pBoard = document.getElementById("playerBoard");
