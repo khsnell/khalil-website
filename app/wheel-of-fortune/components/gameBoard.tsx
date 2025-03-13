@@ -313,7 +313,7 @@ export default function GameBoard() {
                 const letter = answer[i];
 
                 if (!isSolved && (!guessedLetters.includes(letter) && letter.match(/[A-Z ]/))) cName += "text-white ";
-                if (letter != " ") cName += "bg-white border-black border-2 md:border-4";
+                if (letter != " ") cName += "bg-white dark:bg-white border-black border-2 md:border-4";
                 else { j++; }
 
                 widthLeft = widthLeft - singleCharLength;
