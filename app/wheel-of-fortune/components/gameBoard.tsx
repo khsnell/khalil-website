@@ -65,7 +65,7 @@ export default function GameBoard() {
 
     function handleGameInitialization() {
         setHTMLElementVariables();
-
+        
         if (playerName) {
             playerArray[0].name = playerName.value;
         }
@@ -190,6 +190,8 @@ export default function GameBoard() {
         const vowels = "AEIOU";
         let vowelScoreCounted = false;
 
+        setHTMLElementVariables();
+
         setTimeout(() => { if (vowelInput) vowelInput.value = ""; }, 1000);
 
         for (let i = 0; i < vowels.length; i++) {
@@ -228,6 +230,8 @@ export default function GameBoard() {
         
         const mValue = val.toUpperCase();
         const vowels = "AEIOU";
+
+        setHTMLElementVariables();
         
         setTimeout(() => { if (guessInput) guessInput.value = ""; }, 2000);
 
@@ -416,7 +420,8 @@ export default function GameBoard() {
         }
 
         setCurrentSpin(spinValue);
-        
+        setHTMLElementVariables();
+
         if (wheel) {
             wheel.className = "wheel-spin";
             wheel.setAttribute("style", `transform: rotate(${spin}deg)`);
@@ -467,6 +472,8 @@ export default function GameBoard() {
                 break;
             }
         }
+
+        setHTMLElementVariables();
 
         setTimeout(() => {
             if (guessInput) guessInput.value = cpuGuess;
