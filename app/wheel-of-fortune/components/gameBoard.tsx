@@ -529,7 +529,7 @@ export default function GameBoard() {
     }
 
     return (
-    <>
+    <div className="text-black">
         <div className="mt-5 md:mt-32 border-black border-3 bg-blue-600 rounded-xl text-center text-white">{clue}</div>
         <div 
             id="gameBoard"
@@ -558,6 +558,6 @@ export default function GameBoard() {
                 alt="wheel"
             />
         </div>
-    </>
+    </div>
   );
 }
